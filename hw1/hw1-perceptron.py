@@ -7,9 +7,7 @@ import time
 import pickle
 import json
 import sys
-
 import numpy as np
-
 import utils
 
 
@@ -17,12 +15,14 @@ class Perceptron:
     def __init__(self, n_classes, n_features):
         self.W = np.zeros((n_classes, n_features))
 
+
     def save(self, path):
         """
         Save perceptron to the provided path
         """
         with open(path, "wb") as f:
             pickle.dump(self, f)
+
 
     @classmethod
     def load(cls, path):
@@ -32,15 +32,14 @@ class Perceptron:
         with open(path, "rb") as f:
             return pickle.load(f)
 
+
     def update_weight(self, x_i, y_i, y_hat):
         """
         x_i (n_features,): a single training example
         y_i (scalar): the gold label for that example
         """
-        # Todo: Q1 1(a)
-        self.W[y_i] = self.W[y_i] + 1 * x_i
-        
-        self.W[y_hat] = self.W[y_hat] - 1* x_i
+        self.W[y_i] += x_i
+        self.W[y_hat] -= x_i
         
 
     def train_epoch(self, X, y):
@@ -48,31 +47,22 @@ class Perceptron:
         X (n_examples, n_features): features for the whole dataset
         y (n_examples,): labels for the whole dataset
         """
-        # Todo: Q1 1(a)
-        mistakes = 0
         for x, y_i in zip(X, y):
             z = np.argmax(self.W.dot(x))
             if z != y_i:
                 self.update_weight(x, y_i, z)
-                mistakes +=1
-
-        print(mistakes)
-               
-                
-
+          
 
     def predict(self, X):
         """
         X (n_examples, n_features)
         returns predicted labels y_hat, whose shape is (n_examples,)
         """
-        # Todo: Q1 1(a)
-        predictions =  [np.argmax(self.W.dot(x)) for x in X]
+        predictions =  np.argmax(self.W @ X.T, axis=0)
     
         return predictions
 
         
-
     def evaluate(self, X, y):
         """
         X (n_examples x n_features)
@@ -80,9 +70,8 @@ class Perceptron:
 
         returns classifier accuracy
         """
-        # Todo: Q1 1(a)
         preds = self.predict(X)
-        return np.sum(np.equal(preds,y)) / np.size(preds)
+        return np.mean(np.equal(preds,y))
 
 
 def main(args):
