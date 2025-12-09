@@ -6,19 +6,26 @@ import argparse
 import time
 import pickle
 import json
-
 import numpy as np
-
 import utils
 
-def softmax(z):
-    return np.exp(z - np.max(z)) / np.exp(z - np.max(z)).sum()
+
+def softmax(matrix):
+    a = np.exp(matrix)
+    return a / np.sum(a)
+
+
+def batch_softmax(matrix):
+    a = np.exp(matrix)
+    return a / np.sum(a, axis = 0, keepdims=True)
+
 
 class LogisticRegressor:
     def __init__(self, n_classes, n_features, eta, l2):
-        self.W = np.random.randn(n_classes, n_features)
+        self.W = np.zeros((n_classes, n_features))
         self.eta = eta
         self.l2 = l2
+
 
     def save(self, path):
         """
@@ -26,6 +33,7 @@ class LogisticRegressor:
         """
         with open(path, "wb") as f:
             pickle.dump(self, f)
+
 
     @classmethod
     def load(cls, path):
@@ -35,6 +43,7 @@ class LogisticRegressor:
         with open(path, "rb") as f:
             return pickle.load(f)
 
+
     def update_weight(self, x_i, y_i, z_i):
         """
         x_i (n_features,): a single training example
@@ -42,26 +51,20 @@ class LogisticRegressor:
         """
         # Todo: Q1 1(a)
         z_i[y_i] -= 1
-        grad = np.outer(z_i,x_i.T)
+        grad = np.outer(z_i, x_i)
             
         self.W -= self.eta * (self.l2 * self.W + grad)
 
-        
 
     def train_epoch(self, X, y):
         """
         X (n_examples, n_features): features for the whole dataset
         y (n_examples,): labels for the whole dataset
         """
-        for x,y in zip(X, y):
-            # Compute probability y_hat
+        for x, yi in zip(X, y):
+            # Compute probability vector
             prob = softmax(self.W @ x)
-
-            self.update_weight(x, y, prob)
-            
-
-            
-            
+            self.update_weight(x, yi, prob)  
         
 
     def predict(self, X):
@@ -69,8 +72,8 @@ class LogisticRegressor:
         X (n_examples, n_features)
         returns predicted labels y_hat, whose shape is (n_examples,)
         """
-        # Todo: Q1 1(a)
-        predictions =  [np.argmax(softmax(self.W @ x)) for x in X]
+        ## softmax is not needed because argmax will be the same
+        predictions =  np.argmax(self.W @ X.T, axis = 0)
     
         return predictions
 
@@ -82,7 +85,7 @@ class LogisticRegressor:
         returns classifier accuracy
         """
         preds = self.predict(X)
-        return np.sum(np.equal(preds,y)) / np.size(preds)
+        return np.mean(np.equal(preds,y))
         
 
 
@@ -129,6 +132,7 @@ def main(args):
         # Decide whether to save the model to args.save_path based on its
         # validation score
         if valid_acc >= best_valid:
+            print("time {:.0f} minutes and {:.2f} seconds".format((time.time() - start) // 60,(time.time() - start) % 60))
             best_epoch = i
             print("new best model found! saving progress...")
             best_valid = valid_acc
@@ -200,23 +204,30 @@ def grid_search(args, components):
     X_test, y_test = data["test"]
     n_classes = np.unique(y_train).size
     n_feats = X_train.shape[1]
+
     x_pca = X_train @ components.T
     x_valid_pca = X_valid @ components.T
     x_test_pca = X_test @ components.T
+
     n_components = x_pca.shape[1]
-    complete_best_acc = 0.7085
+    complete_best_acc = 0
     model_i = 0
     model_desc = []
+    best_model = "grid/model_6_best_valid"
     bestmodel_idx = 0
     bestmodel_test = X_test
-    for eta in [0.01, 0.001, 0.0001]:
-        for l2 in [0.01, 0.001]:
+
+    train = [x_pca, X_train]
+    valid = [x_valid_pca, X_valid]
+    test = [x_test_pca, X_test]
+
+    for eta in [0.0001, 0.001, 0.01]:
+        break
+        for l2 in [0.00001, 0.001]:
     
 
-            models = [LogisticRegressor(n_classes, n_components, eta, l2), LogisticRegressor(n_classes, n_feats, eta, l2),]
-            train = [x_pca, X_train]
-            valid = [x_valid_pca, X_valid]
-            test = [x_test_pca, X_test]
+            models = [LogisticRegressor(n_classes, n_components, eta, l2), LogisticRegressor(n_classes, n_feats, eta, l2)]
+            
             for x_train, x_valid, x_test, model in zip(train, valid, test, models): 
                 model_i += 1
                 epochs = np.arange(1, 20 + 1)
@@ -248,11 +259,11 @@ def grid_search(args, components):
                     # validation score
                     if valid_acc >= best_valid:
                         best_valid = valid_acc
-                        model.save(f"model_{model_i}_best_valid_2")
+                        model.save(f"grid/model_{model_i}_best_valid")
                     if valid_acc >= complete_best_acc:
                         print("new best model found! saving progress...")
                         complete_best_acc = valid_acc
-                        model.save(f"best_logistic_model")
+                        best_model = f"grid/model_{model_i}_best_valid"
                         bestmodel_idx = i
                         bestmodel_test = x_test
 
@@ -261,15 +272,15 @@ def grid_search(args, components):
                 minutes = int(elapsed_time // 60)
                 seconds = int(elapsed_time % 60)
                 print('Training took {} minutes and {} seconds'.format(minutes, seconds))
-                model_desc.append(f"{model_i}: eta = {eta}; l2 = {l2}; pca :{x_train.shape[1]!=785}; best val acc: {best_valid}; training time: {minutes}:{seconds}")
+                model_desc.append(f"{model_i}: eta = {eta}; l2 = {l2}; pca :{x_train.shape[1]!=785}; best val acc: {best_valid:.2f}; training time: {minutes}:{seconds}")
     
     
     for d in model_desc:
         print(d)
     print("Reloading best checkpoint")
-    best_model = LogisticRegressor.load("best_logistic_model")
+    best_model = LogisticRegressor.load(best_model)
     test_acc = best_model.evaluate(bestmodel_test, y_test)
-    print(f'BEST Model: {model_desc[bestmodel_idx]}')
+    # print(f'Best Model: {model_desc[bestmodel_idx]}')
     print('Best model test acc: {:.4f}'.format(test_acc))
 
 
@@ -282,8 +293,9 @@ if __name__ == '__main__':
     parser.add_argument('--data-path', type=str, default="emnist-letters.npz")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--save-path", required=True)
-    parser.add_argument("--accuracy-plot", default="Q1-logistica-accs.pdf")
-    parser.add_argument("--scores", default="Q1-logistica-scores.json")
+    parser.add_argument("--accuracy-plot", default="Q1-logistic-accs.pdf")
+    parser.add_argument("--scores", default="Q1-logistic-scores.json")
     args = parser.parse_args()
+    # main(args)
     x_pca = two_two(args)
     grid_search(args, x_pca)
