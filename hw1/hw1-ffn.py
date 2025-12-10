@@ -15,6 +15,7 @@ import utils
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
+
 class FeedforwardNetwork(nn.Module):
     def __init__(
             self, n_classes, n_features, hidden_size, layers,
@@ -154,12 +155,12 @@ def main():
     parser.add_argument('-hidden_size', type=int, default=32)
     parser.add_argument('-layers', type=int, default=1)
     parser.add_argument('-learning_rate', type=float, default=0.001)
-    parser.add_argument('-l2_decay', type=float, default=0.0)
-    parser.add_argument('-dropout', type=float, default=0.0)
+    parser.add_argument('-l2_decay', type=float, default=0.0001)
+    parser.add_argument('-dropout', type=float, default=0.3)
     parser.add_argument('-activation',
                         choices=['tanh', 'relu'], default='relu')
     parser.add_argument('-optimizer',
-                        choices=['sgd', 'adam'], default='sgd')
+                        choices=['sgd', 'adam'], default='adam')
     parser.add_argument('-data_path', type=str, default='emnist-letters.npz',)
     opt = parser.parse_args()
 
@@ -173,109 +174,130 @@ def main():
     dev_X, dev_y = dataset.dev_X, dataset.dev_y
     test_X, test_y = dataset.test_X, dataset.test_y
 
-    train_X.to(device)
-    train_y.to(device)
-    dev_X.to(device)
-    dev_y.to(device)
-    test_X.to(device)
-    test_y.to(device)
+    train_X = train_X.to(device)
+    train_y = train_y.to(device)
+    dev_X = dev_X.to(device)
+    dev_y = dev_y.to(device)
+    test_X = test_X.to(device)
+    test_y = test_y.to(device)
 
     n_classes = torch.unique(dataset.train_y).shape[0]  # 26
     n_feats = dataset.train_X.shape[1]
 
     print(f"N features: {n_feats}")
     print(f"N classes: {n_classes}")
+    
+    begin = time.time()
+    with open(f'grid-ffn/results.txt', 'w') as f:
+        f.write("Grid Search Results for Feedforward Network\n\n")
 
-    # initialize the model
-    model = FeedforwardNetwork(
-        n_classes,
-        n_feats,
-        opt.hidden_size,
-        opt.layers,
-        opt.activation,
-        opt.dropout
-    )
+    for hs in [16, 32, 64, 128, 256]:
+        for lr in [0.01, 0.001, 0.0001, 0.00001]:
+            for do in [0.0, 0.2]:
+                for l2 in [0.0, 0.0001]:
+                    print(f"\n\nTraining with hidden size {hs}, learning rate {lr}, dropout {do}, l2 {l2}\n")
+                    # initialize the model
+                    model = FeedforwardNetwork(
+                        n_classes,
+                        n_feats,
+                        hs,
+                        opt.layers,
+                        opt.activation,
+                        do
+                    )
 
-    model.to(device)
+                    model = model.to(device)
 
-    # get an optimizer
-    optims = {"adam": torch.optim.Adam, "sgd": torch.optim.SGD}
+                    # get an optimizer
+                    optims = {"adam": torch.optim.Adam, "sgd": torch.optim.SGD}
 
-    optim_cls = optims[opt.optimizer]
-    optimizer = optim_cls(
-        model.parameters(), lr=opt.learning_rate, weight_decay=opt.l2_decay
-    )
+                    optim_cls = optims[opt.optimizer]
+                    optimizer = optim_cls(
+                        model.parameters(), lr=lr, weight_decay=l2
+                    )
 
-    # get a loss criterion
-    criterion = nn.CrossEntropyLoss()
+                    # get a loss criterion
+                    criterion = nn.CrossEntropyLoss()
 
-    # training loop
-    epochs = torch.arange(0, opt.epochs + 1)
-    train_losses = []
-    train_accs = []
-    valid_losses = []
-    valid_accs = []
+                    # training loop
+                    epochs = torch.arange(0, opt.epochs + 1)
+                    train_losses = []
+                    train_accs = []
+                    valid_losses = []
+                    valid_accs = []
 
-    start = time.time()
+                    start = time.time()
 
-    model.eval()
-    initial_train_loss, initial_train_acc = evaluate(model, train_X, train_y, criterion)
-    initial_val_loss, initial_val_acc = evaluate(model, dev_X, dev_y, criterion)
-    train_losses.append(initial_train_loss)
-    train_accs.append(initial_train_acc)
-    valid_losses.append(initial_val_loss)
-    valid_accs.append(initial_val_acc)
-    print('initial val acc: {:.4f}'.format(initial_val_acc))
+                    model.eval()
+                    initial_train_loss, initial_train_acc = evaluate(model, train_X, train_y, criterion)
+                    initial_val_loss, initial_val_acc = evaluate(model, dev_X, dev_y, criterion)
+                    train_losses.append(initial_train_loss)
+                    train_accs.append(initial_train_acc)
+                    valid_losses.append(initial_val_loss)
+                    valid_accs.append(initial_val_acc)
+                    print('initial val acc: {:.4f}'.format(initial_val_acc))
 
-    for ii in epochs[1:]:
-        print('Training epoch {}'.format(ii))
-        epoch_train_losses = []
-        model.train()
-        for X_batch, y_batch in train_dataloader:
-            loss = train_batch(
-                X_batch, y_batch, model, optimizer, criterion)
-            epoch_train_losses.append(loss)
+                    for ii in epochs[1:]:
+                        print('Training epoch {}'.format(ii))
+                        epoch_train_losses = []
+                        model.train()
+                        for X_batch, y_batch in train_dataloader:
+                            X_batch = X_batch.to(device)
+                            y_batch = y_batch.to(device)
+                            loss = train_batch(
+                                X_batch, y_batch, model, optimizer, criterion)
+                            epoch_train_losses.append(loss)
 
-        model.eval()
-        epoch_train_loss = torch.tensor(epoch_train_losses).mean().item()
-        _, train_acc = evaluate(model, train_X, train_y, criterion)
-        val_loss, val_acc = evaluate(model, dev_X, dev_y, criterion)
+                        model.eval()
+                        epoch_train_loss = torch.tensor(epoch_train_losses).mean().item()
+                        _, train_acc = evaluate(model, train_X, train_y, criterion)
+                        val_loss, val_acc = evaluate(model, dev_X, dev_y, criterion)
 
-        print('train loss: {:.4f} | val loss: {:.4f} | val acc: {:.4f}'.format(
-            epoch_train_loss, val_loss, val_acc
-        ))
+                        print('train loss: {:.4f} | val loss: {:.4f} | val acc: {:.4f}'.format(
+                            epoch_train_loss, val_loss, val_acc
+                        ))
 
-        train_losses.append(epoch_train_loss)
-        train_accs.append(train_acc)
-        valid_losses.append(val_loss)
-        valid_accs.append(val_acc)
+                        train_losses.append(epoch_train_loss)
+                        train_accs.append(train_acc)
+                        valid_losses.append(val_loss)
+                        valid_accs.append(val_acc)
 
-    elapsed_time = time.time() - start
+                    elapsed_time = time.time() - start
+                    minutes = int(elapsed_time // 60)
+                    seconds = int(elapsed_time % 60)
+                    print('Training took {} minutes and {} seconds'.format(minutes, seconds))
+
+                    _, test_acc = evaluate(model, test_X, test_y, criterion)
+                    print('Final test acc: {:.4f}'.format(test_acc))
+
+                    # plot
+                    config = (
+                        f"batch-{opt.batch_size}-lr-{lr}-epochs-{opt.epochs}-"
+                        f"hidden-{hs}-dropout-{do}-l2-{l2}-"
+                        f"layers-{opt.layers}-act-{opt.activation}-opt-{opt.optimizer}"
+                    )
+
+                    losses = {
+                        "Train Loss": train_losses,
+                        "Valid Loss": valid_losses,
+                    }
+
+                    plot(epochs, losses, filename=f'grid-ffn/training-loss-{config}.pdf')
+                    print(f"Final Training Accuracy: {train_accs[-1]:.4f}")
+                    print(f"Best Validation Accuracy: {max(valid_accs):.4f}")
+                    val_accuracy = { "Valid Accuracy": valid_accs }
+                    plot(epochs, val_accuracy, filename=f'grid-ffn/validation-accuracy-{config}.pdf')
+                    
+                    with open(f'grid-ffn/results.txt', 'a') as f:
+                        f.write(f"Config: {config}\n")
+                        f.write(f"Final Training Accuracy: {train_accs[-1]:.4f}\n")
+                        f.write(f"Best Validation Accuracy: {max(valid_accs):.4f}\n")
+                        f.write(f"Final Test Accuracy: {test_acc:.4f}\n")
+                        f.write("\n\n")
+    elapsed_time = time.time() - begin
     minutes = int(elapsed_time // 60)
     seconds = int(elapsed_time % 60)
-    print('Training took {} minutes and {} seconds'.format(minutes, seconds))
-
-    _, test_acc = evaluate(model, test_X, test_y, criterion)
-    print('Final test acc: {:.4f}'.format(test_acc))
-
-    # plot
-    config = (
-        f"batch-{opt.batch_size}-lr-{opt.learning_rate}-epochs-{opt.epochs}-"
-        f"hidden-{opt.hidden_size}-dropout-{opt.dropout}-l2-{opt.l2_decay}-"
-        f"layers-{opt.layers}-act-{opt.activation}-opt-{opt.optimizer}"
-    )
-
-    losses = {
-        "Train Loss": train_losses,
-        "Valid Loss": valid_losses,
-    }
-
-    plot(epochs, losses, filename=f'bro-training-loss-{config}.pdf')
-    print(f"Final Training Accuracy: {train_accs[-1]:.4f}")
-    print(f"Best Validation Accuracy: {max(valid_accs):.4f}")
-    val_accuracy = { "Valid Accuracy": valid_accs }
-    plot(epochs, val_accuracy, filename=f'bro-validation-accuracy-{config}.pdf')
-
+    print('Grid-search took {} minutes and {} seconds'.format(minutes, seconds))
 
 if __name__ == '__main__':
     main()

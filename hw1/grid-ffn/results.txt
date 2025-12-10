@@ -1,0 +1,476 @@
+Grid Search Results for Feedforward Network
+
+Config: batch-64-lr-0.01-epochs-30-hidden-16-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7196
+Best Validation Accuracy: 0.7209
+Final Test Accuracy: 0.7044
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-16-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7101
+Best Validation Accuracy: 0.7018
+Final Test Accuracy: 0.7024
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-16-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6701
+Best Validation Accuracy: 0.6680
+Final Test Accuracy: 0.6592
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-16-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6816
+Best Validation Accuracy: 0.6873
+Final Test Accuracy: 0.6754
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-16-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7829
+Best Validation Accuracy: 0.7730
+Final Test Accuracy: 0.7693
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-16-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7800
+Best Validation Accuracy: 0.7743
+Final Test Accuracy: 0.7713
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-16-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7560
+Best Validation Accuracy: 0.7450
+Final Test Accuracy: 0.7445
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-16-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7390
+Best Validation Accuracy: 0.7340
+Final Test Accuracy: 0.7289
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-16-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7191
+Best Validation Accuracy: 0.7121
+Final Test Accuracy: 0.7130
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-16-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7140
+Best Validation Accuracy: 0.7070
+Final Test Accuracy: 0.7117
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-16-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6986
+Best Validation Accuracy: 0.6919
+Final Test Accuracy: 0.6984
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-16-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6964
+Best Validation Accuracy: 0.6925
+Final Test Accuracy: 0.6892
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-16-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6059
+Best Validation Accuracy: 0.6024
+Final Test Accuracy: 0.6021
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-16-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.5959
+Best Validation Accuracy: 0.5946
+Final Test Accuracy: 0.5955
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-16-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.5869
+Best Validation Accuracy: 0.5854
+Final Test Accuracy: 0.5904
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-16-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.5856
+Best Validation Accuracy: 0.5865
+Final Test Accuracy: 0.5829
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-32-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8062
+Best Validation Accuracy: 0.7989
+Final Test Accuracy: 0.7809
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-32-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7962
+Best Validation Accuracy: 0.8066
+Final Test Accuracy: 0.7857
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-32-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7801
+Best Validation Accuracy: 0.7664
+Final Test Accuracy: 0.7606
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-32-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7711
+Best Validation Accuracy: 0.7873
+Final Test Accuracy: 0.7669
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-32-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8641
+Best Validation Accuracy: 0.8372
+Final Test Accuracy: 0.8393
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-32-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8567
+Best Validation Accuracy: 0.8392
+Final Test Accuracy: 0.8369
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-32-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8357
+Best Validation Accuracy: 0.8197
+Final Test Accuracy: 0.8241
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-32-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8051
+Best Validation Accuracy: 0.7963
+Final Test Accuracy: 0.8002
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-32-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7992
+Best Validation Accuracy: 0.7880
+Final Test Accuracy: 0.7929
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-32-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7880
+Best Validation Accuracy: 0.7826
+Final Test Accuracy: 0.7834
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-32-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7902
+Best Validation Accuracy: 0.7822
+Final Test Accuracy: 0.7821
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-32-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6647
+Best Validation Accuracy: 0.6643
+Final Test Accuracy: 0.6621
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-32-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6618
+Best Validation Accuracy: 0.6623
+Final Test Accuracy: 0.6584
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-32-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6510
+Best Validation Accuracy: 0.6480
+Final Test Accuracy: 0.6473
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-32-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6520
+Best Validation Accuracy: 0.6539
+Final Test Accuracy: 0.6503
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-64-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8455
+Best Validation Accuracy: 0.8319
+Final Test Accuracy: 0.8131
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-64-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8376
+Best Validation Accuracy: 0.8271
+Final Test Accuracy: 0.8239
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-64-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8340
+Best Validation Accuracy: 0.8177
+Final Test Accuracy: 0.8037
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-64-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8053
+Best Validation Accuracy: 0.8075
+Final Test Accuracy: 0.7986
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-64-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9167
+Best Validation Accuracy: 0.8788
+Final Test Accuracy: 0.8752
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-64-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9108
+Best Validation Accuracy: 0.8813
+Final Test Accuracy: 0.8797
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-64-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8936
+Best Validation Accuracy: 0.8706
+Final Test Accuracy: 0.8695
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-64-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8917
+Best Validation Accuracy: 0.8724
+Final Test Accuracy: 0.8723
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-64-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8590
+Best Validation Accuracy: 0.8473
+Final Test Accuracy: 0.8495
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-64-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8593
+Best Validation Accuracy: 0.8477
+Final Test Accuracy: 0.8496
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-64-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8527
+Best Validation Accuracy: 0.8435
+Final Test Accuracy: 0.8421
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-64-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8509
+Best Validation Accuracy: 0.8427
+Final Test Accuracy: 0.8446
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-64-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6962
+Best Validation Accuracy: 0.6971
+Final Test Accuracy: 0.6956
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-64-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6941
+Best Validation Accuracy: 0.6926
+Final Test Accuracy: 0.6934
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-64-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6961
+Best Validation Accuracy: 0.6966
+Final Test Accuracy: 0.6955
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-64-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.6942
+Best Validation Accuracy: 0.6933
+Final Test Accuracy: 0.6932
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-128-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8808
+Best Validation Accuracy: 0.8413
+Final Test Accuracy: 0.8386
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-128-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8377
+Best Validation Accuracy: 0.8378
+Final Test Accuracy: 0.8242
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-128-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8598
+Best Validation Accuracy: 0.8336
+Final Test Accuracy: 0.8263
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-128-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8145
+Best Validation Accuracy: 0.8236
+Final Test Accuracy: 0.8059
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-128-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9503
+Best Validation Accuracy: 0.8918
+Final Test Accuracy: 0.8878
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-128-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9355
+Best Validation Accuracy: 0.8978
+Final Test Accuracy: 0.8961
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-128-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9331
+Best Validation Accuracy: 0.8962
+Final Test Accuracy: 0.8921
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-128-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9209
+Best Validation Accuracy: 0.8940
+Final Test Accuracy: 0.8941
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-128-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8985
+Best Validation Accuracy: 0.8808
+Final Test Accuracy: 0.8798
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-128-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9000
+Best Validation Accuracy: 0.8821
+Final Test Accuracy: 0.8809
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-128-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8945
+Best Validation Accuracy: 0.8791
+Final Test Accuracy: 0.8777
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-128-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8935
+Best Validation Accuracy: 0.8780
+Final Test Accuracy: 0.8774
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-128-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7282
+Best Validation Accuracy: 0.7240
+Final Test Accuracy: 0.7259
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-128-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7260
+Best Validation Accuracy: 0.7248
+Final Test Accuracy: 0.7256
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-128-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7315
+Best Validation Accuracy: 0.7299
+Final Test Accuracy: 0.7298
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-128-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7350
+Best Validation Accuracy: 0.7356
+Final Test Accuracy: 0.7309
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-256-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8870
+Best Validation Accuracy: 0.8464
+Final Test Accuracy: 0.8355
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-256-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8345
+Best Validation Accuracy: 0.8341
+Final Test Accuracy: 0.8197
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-256-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8574
+Best Validation Accuracy: 0.8374
+Final Test Accuracy: 0.8197
+
+
+Config: batch-64-lr-0.01-epochs-30-hidden-256-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.8292
+Best Validation Accuracy: 0.8237
+Final Test Accuracy: 0.8153
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-256-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9684
+Best Validation Accuracy: 0.9045
+Final Test Accuracy: 0.8918
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-256-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9524
+Best Validation Accuracy: 0.9049
+Final Test Accuracy: 0.9027
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-256-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9583
+Best Validation Accuracy: 0.9069
+Final Test Accuracy: 0.9042
+
+
+Config: batch-64-lr-0.001-epochs-30-hidden-256-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9411
+Best Validation Accuracy: 0.9078
+Final Test Accuracy: 0.9079
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-256-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9247
+Best Validation Accuracy: 0.8975
+Final Test Accuracy: 0.8950
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-256-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9216
+Best Validation Accuracy: 0.8959
+Final Test Accuracy: 0.8944
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-256-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9216
+Best Validation Accuracy: 0.8996
+Final Test Accuracy: 0.8988
+
+
+Config: batch-64-lr-0.0001-epochs-30-hidden-256-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.9181
+Best Validation Accuracy: 0.8969
+Final Test Accuracy: 0.8959
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-256-dropout-0.0-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7684
+Best Validation Accuracy: 0.7652
+Final Test Accuracy: 0.7640
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-256-dropout-0.0-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7710
+Best Validation Accuracy: 0.7671
+Final Test Accuracy: 0.7679
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-256-dropout-0.2-l2-0.0-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7699
+Best Validation Accuracy: 0.7682
+Final Test Accuracy: 0.7675
+
+
+Config: batch-64-lr-1e-05-epochs-30-hidden-256-dropout-0.2-l2-0.0001-layers-1-act-relu-opt-adam
+Final Training Accuracy: 0.7696
+Best Validation Accuracy: 0.7645
+Final Test Accuracy: 0.7655
+
+
