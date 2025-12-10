@@ -12,10 +12,12 @@ from matplotlib import pyplot as plt
 import time
 import utils
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 class FeedforwardNetwork(nn.Module):
     def __init__(
-            self, t, n_features, hidden_size, layers,
+            self, n_classes, n_features, hidden_size, layers,
             activation_type, dropout, **kwargs):
         """ Define a vanilla multiple-layer FFN with `layers` hidden layers 
         Args:
@@ -27,9 +29,32 @@ class FeedforwardNetwork(nn.Module):
             dropout (float): dropout probability
         """
         super().__init__()
+
+        activations = {
+            'relu': nn.ReLU(),
+            'tanh': nn.Tanh(),
+        }
+
+        activation_layer = activations[activation_type]
+
+        dropout_layer = nn.Dropout(dropout)
+
+        modules = []
+
+        modules.append(nn.Linear(n_features, hidden_size))
+        modules.append(activation_layer)
+        modules.append(dropout_layer)
+
+        for _ in range(layers - 1):    
+            modules.append(nn.Linear(n_features, hidden_size))
+            modules.append(activation_layer)
+            modules.append(dropout_layer)
         
+        modules.append(nn.Linear(hidden_size, n_classes))
+
+        self.W = nn.Sequential(*modules)
         
-        raise NotImplementedError()
+
 
     def forward(self, x, **kwargs):
         """ Compute a forward pass through the FFN
@@ -38,7 +63,7 @@ class FeedforwardNetwork(nn.Module):
         Returns:
             scores (torch.Tensor)
         """
-        raise NotImplementedError()
+        return self.W(x)
     
     
 def train_batch(X, y, model, optimizer, criterion, **kwargs):
@@ -52,7 +77,17 @@ def train_batch(X, y, model, optimizer, criterion, **kwargs):
     Returns:
         loss (float)
     """
-    raise NotImplementedError()
+    model.train()
+    y_hat = model(X)
+    loss = criterion(y_hat, y)
+
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+    return loss.item()
+
+    
 
 
 def predict(model, X):
@@ -63,7 +98,11 @@ def predict(model, X):
     Returns:
         preds: (n_examples)
     """
-    raise NotImplementedError()
+    model.eval()
+    with torch.no_grad():
+        y_hat = model(X)
+        preds = torch.argmax(y_hat, dim=1)
+    return preds
 
 
 @torch.no_grad()
@@ -77,7 +116,16 @@ def evaluate(model, X, y, criterion):
     Returns:
         loss, accuracy (Tuple[float, float])
     """
-    raise NotImplementedError()
+    # compute loss
+    model.eval()
+    y_hat = model(X)
+    loss = criterion(y_hat, y).item()
+
+    # compute accuracy via predict()
+    preds = predict(model, X)
+    accuracy = (preds == y).float().mean().item()
+
+    return loss, accuracy
 
 
 def plot(epochs, plottables, filename=None, ylim=None):
@@ -125,8 +173,15 @@ def main():
     dev_X, dev_y = dataset.dev_X, dataset.dev_y
     test_X, test_y = dataset.test_X, dataset.test_y
 
-    n_classes = torch.unique(dataset.y).shape[0]  # 26
-    n_feats = dataset.X.shape[1]
+    train_X.to(device)
+    train_y.to(device)
+    dev_X.to(device)
+    dev_y.to(device)
+    test_X.to(device)
+    test_y.to(device)
+
+    n_classes = torch.unique(dataset.train_y).shape[0]  # 26
+    n_feats = dataset.train_X.shape[1]
 
     print(f"N features: {n_feats}")
     print(f"N classes: {n_classes}")
@@ -141,6 +196,8 @@ def main():
         opt.dropout
     )
 
+    model.to(device)
+
     # get an optimizer
     optims = {"adam": torch.optim.Adam, "sgd": torch.optim.SGD}
 
@@ -153,7 +210,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
 
     # training loop
-    epochs = torch.arange(1, opt.epochs + 1)
+    epochs = torch.arange(0, opt.epochs + 1)
     train_losses = []
     train_accs = []
     valid_losses = []
@@ -170,7 +227,7 @@ def main():
     valid_accs.append(initial_val_acc)
     print('initial val acc: {:.4f}'.format(initial_val_acc))
 
-    for ii in epochs:
+    for ii in epochs[1:]:
         print('Training epoch {}'.format(ii))
         epoch_train_losses = []
         model.train()
@@ -213,11 +270,11 @@ def main():
         "Valid Loss": valid_losses,
     }
 
-    plot(epochs, losses, filename=f'{opt.model}-training-loss-{config}.pdf')
+    plot(epochs, losses, filename=f'bro-training-loss-{config}.pdf')
     print(f"Final Training Accuracy: {train_accs[-1]:.4f}")
     print(f"Best Validation Accuracy: {max(valid_accs):.4f}")
     val_accuracy = { "Valid Accuracy": valid_accs }
-    plot(epochs, val_accuracy, filename=f'{opt.model}-validation-accuracy-{config}.pdf')
+    plot(epochs, val_accuracy, filename=f'bro-validation-accuracy-{config}.pdf')
 
 
 if __name__ == '__main__':
