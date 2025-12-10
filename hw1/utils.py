@@ -73,8 +73,8 @@ class ClassificationDataset(torch.utils.data.Dataset):
         dev_X, dev_y = data["dev"]
         test_X, test_y = data["test"]
 
-        self.X = torch.tensor(train_X, dtype=torch.float32)
-        self.y = torch.tensor(train_y, dtype=torch.long)
+        self.train_X = torch.tensor(train_X, dtype=torch.float32)
+        self.train_y = torch.tensor(train_y, dtype=torch.long)
 
         self.dev_X = torch.tensor(dev_X, dtype=torch.float32)
         self.dev_y = torch.tensor(dev_y, dtype=torch.long)
@@ -83,7 +83,7 @@ class ClassificationDataset(torch.utils.data.Dataset):
         self.test_y = torch.tensor(test_y, dtype=torch.long)
 
     def __len__(self):
-        return len(self.X)
+        return len(self.train_X)
 
     def __getitem__(self, idx):
-        return self.X[idx], self.y[idx]
+        return self.train_X[idx], self.train_y[idx]
