@@ -77,13 +77,16 @@ class MLPerceptron:
         y (n_examples,): labels for the whole dataset
         """
         # Todo: Q1 1(a)
+        loss = 0
         X = X.reshape(len(X), -1, 1)
         for (x, label) in zip(X,y):
             z1 = self.W1 @ x + self.B1
             hidden = relu(z1)
             output = softmax(self.W2 @ hidden + self.B2) 
             self.update_weight(x, label, z1, hidden, output)
-        
+            loss -= np.log(output[label]+1 + 1e-12)
+        print(loss/len(X))
+        return loss / len(X)
 
     def forward(self, X):
         z1 = self.W1 @ X.T + self.B1
@@ -130,6 +133,7 @@ def main(args):
 
     valid_accs = []
     train_accs = []
+    losses = []
 
     start = time.time()
 
@@ -141,7 +145,8 @@ def main(args):
         X_train = X_train[train_order]
         y_train = y_train[train_order]
 
-        model.train_epoch(X_train, y_train)
+        loss = model.train_epoch(X_train, y_train)
+        losses.append(loss)
         # model.load(args.save_path)
 
         train_acc = model.evaluate(X_train, y_train)
@@ -172,7 +177,12 @@ def main(args):
     test_acc = best_model.evaluate(X_test, y_test)
 
     print('Best model test acc: {:.4f}'.format(test_acc))
+    utils.plot(
+        "Epoch", "Training Loss",
+        {"train": (epochs, losses)},
+        filename="Q1-mlp-losses"
 
+    )
     utils.plot(
         "Epoch", "Accuracy",
         {"train": (epochs, train_accs), "valid": (epochs, valid_accs)},
