@@ -91,7 +91,7 @@ def plot(epochs, plottable, ylabel='', name=''):
     plt.clf()
     plt.xlabel('Epoch')
     plt.ylabel(ylabel)
-    plt.plot(epochs, plottable)
+    plt.plot(range(epochs), plottable)
     plt.savefig('%s.pdf' % (name), bbox_inches='tight')
 
 train_dataset = BloodMNIST(split='train', transform=transform, download=True, size=28)
@@ -103,7 +103,7 @@ val_loader   = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 test_loader  = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 # initialize the model
-
+"""
 model = nn.Sequential( ## input 3 x 28 x 28
     nn.Conv2d(in_channels = 3, out_channels = 32, kernel_size = 3, stride = 1, padding = 1), ## 32 x 28 x 28
     nn.ReLU(),
@@ -117,6 +117,25 @@ model = nn.Sequential( ## input 3 x 28 x 28
     nn.Linear(256,8), ## 8
     #nn.Softmax()
 )
+#"""
+#"""
+model = nn.Sequential( ## input 3 x 28 x 28
+    nn.Conv2d(in_channels = 3, out_channels = 32, kernel_size = 3, stride = 1, padding = 1), ## 32 x 28 x 28
+    nn.ReLU(),
+    nn.MaxPool2d(kernel_size=2, stride=2), ## 32 x 14 x 14
+    nn.Conv2d(in_channels = 32, out_channels = 64, kernel_size = 3, stride = 1, padding = 1), ## 64 x 14 x 14
+    nn.ReLU(),
+    nn.MaxPool2d(kernel_size=2, stride=2), ## 64 x 7 x 7
+    nn.Conv2d(in_channels = 64, out_channels = 128, kernel_size = 3, stride = 1, padding = 1), ## 128 x 7 x 7
+    nn.ReLU(),
+    nn.MaxPool2d(kernel_size=2, stride=2), ## 128 x 3 x 3
+    nn.Flatten(), ## 1152
+    nn.Linear(1152, 256), ## 256
+    nn.ReLU(),
+    nn.Linear(256,8), ## 8
+    # nn.Softmax(dim = 1)
+)
+#"""
 
 model = model.to(device)
 # get an optimizer
@@ -140,7 +159,6 @@ for epoch in range(epochs):
 
     train_loss = train_epoch(train_loader, model, criterion, optimizer)
     val_acc = evaluate(val_loader, model)
-    print(f"Epoch {epoch+1}/{epochs} | Loss: {train_loss:.4f} | Val Acc: {val_acc:.4f}")
 
     train_losses.append(train_loss)
     val_accs.append(val_acc)
@@ -149,17 +167,17 @@ for epoch in range(epochs):
     epoch_time = epoch_end - epoch_start
 
     print(f"Epoch {epoch+1}/{epochs} | "
-          f"Loss: {train_loss:.4f} | Val Acc: {val_acc:.4f} | "
-          f"Time: {epoch_time:.2f} sec")
+        f"Loss: {train_loss:.4f} | Val Acc: {val_acc:.4f} | "
+        f"Time: {epoch_time:.2f} sec")
 
-#Test Accuracy
-test_acc = evaluate(test_loader, model)
-print("Test Accuracy:", test_acc)
-test_accs.append(test_acc)
+    #Test Accuracy
+    test_acc = evaluate(test_loader, model)
+    print("Test Accuracy:", test_acc)
+    test_accs.append(test_acc)
 
 
 #Save the model
-torch.save(model.state_dict(), "bloodmnist_logits_cnn.pth")
+torch.save(model.state_dict(), "bloodmnist_logits_cnn_maxpool_softmax_200.pth")
 print("Model saved as bloodmnist_logits_cnn.pth")
 
 
@@ -172,9 +190,16 @@ print(f"\nTotal training time: {total_time/60:.2f} minutes "
 
 print('Final Test acc: %.4f' % test_acc)
 
-config = "{}-{}-{}-{}-{}".format(opt.learning_rate, opt.optimizer, opt.no_maxpool, opt.no_softmax,)
+config = "{}-{}-{}-{}-{}".format(0.001, "Adam", "maxpool", "softmax","200")
 #config = "{}".format(str(0.1))
 
 plot(epochs, train_losses, ylabel='Loss', name='CNN-training-loss-{}'.format(config))
 plot(epochs, val_accs, ylabel='Accuracy', name='CNN-validation-accuracy-{}'.format(config))
 plot(epochs, test_accs, ylabel='Accuracy', name='CNN-test-accuracy-{}'.format(config))
+
+##final test accuracy 
+"""
+normal - 0.9307
+
+maxpool - 0.9369
+"""
